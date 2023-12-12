@@ -7,15 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.villanuevac.repository.DireccionRepository;
-
-
+import com.example.villanuevac.DTO.Cuenta;
 import com.example.villanuevac.DTO.Direccion;
+import com.example.villanuevac.DTO.Usuario;
 
 @Service
 public class DireccionService {
 	
 	@Autowired
 	private DireccionRepository direccionR;
+
+	@Autowired
+	private UsuarioService usuarioS;
 
 	
 	public List<Direccion> all()
@@ -26,6 +29,18 @@ public class DireccionService {
 	public Direccion store(Direccion direccionData)
 	{		
 		return this.direccionR.save(direccionData);
+	}
+	public Direccion storeByUser(Integer id, Direccion direccionData) throws Exception
+	{		
+		Usuario usuario = this.usuarioS.show(id);
+		direccionData.setUsuario(usuario);
+		return this.direccionR.save(direccionData);
+	}
+	
+	public List<Direccion> showByUser(Integer id) throws Exception
+	{	
+		Usuario usuario=this.usuarioS.show(id);	
+		return usuario.getDirecciones();
 	}
 	
 	public Direccion show(Integer id) throws Exception

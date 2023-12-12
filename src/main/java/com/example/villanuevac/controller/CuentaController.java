@@ -36,11 +36,21 @@ public class CuentaController {
 		return this.cuentaService.show(id);
 	}
 	
+	@GetMapping(value="/usuario/{id}")
+	public List<Cuenta> showByUser(@PathVariable("id") Integer id) throws Exception {
+		return this.cuentaService.showByUser(id);
+	}
+	
+	@PostMapping(value="/usuario/{id}")
+	public Cuenta store(@PathVariable("id") Integer id, @Valid @RequestBody Cuenta cuenta) throws Exception {
+		return this.cuentaService.storeByUser(id, cuenta);
+	}
 	@PostMapping
 	public Cuenta store(@Valid @RequestBody Cuenta cuenta) {
 		return this.cuentaService.store(cuenta);
 	}
 
+	
 	
 	@PutMapping(value="/{id}")
 	public Cuenta update(@PathVariable("id") Integer id, @Valid @RequestBody Cuenta cuenta) throws Exception {

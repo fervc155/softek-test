@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.villanuevac.repository.CuentaRepository;
-
-
+import com.example.villanuevac.repository.UsuarioRepository;
 import com.example.villanuevac.DTO.Cuenta;
+import com.example.villanuevac.DTO.Usuario;
 
 @Service
 public class CuentaService {
@@ -17,7 +17,9 @@ public class CuentaService {
 	@Autowired
 	private CuentaRepository cuentaR;
 
-	
+	@Autowired
+	private UsuarioService usuarioS;
+
 	public List<Cuenta> all()
 	{
 		return this.cuentaR.findAll();
@@ -28,6 +30,15 @@ public class CuentaService {
 		return this.cuentaR.save(cuentaData);
 	}
 	
+	
+	public Cuenta storeByUser(Integer id, Cuenta cuentaData) throws Exception
+	{		
+		Usuario usuario = this.usuarioS.show(id);
+		cuentaData.setUsuario(usuario);
+		return this.cuentaR.save(cuentaData);
+	}
+	
+	
 	public Cuenta show(Integer id) throws Exception
 	{	
 		Cuenta cuenta =this.cuentaR.findById(id).orElse(null);	
@@ -37,6 +48,14 @@ public class CuentaService {
 		}
 
 		return cuenta;
+	}
+	public List<Cuenta> showByUser(Integer id) throws Exception
+	{	
+		Usuario usuario=this.usuarioS.show(id);	
+		
+		
+
+		return usuario.getCuentas();
 	}
 	
 	public Cuenta update(Integer id, Cuenta cuentaData) throws Exception

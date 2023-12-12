@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.villanuevac.DTO.Cuenta;
 import com.example.villanuevac.DTO.Direccion;
 import com.example.villanuevac.service.DireccionService;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,14 @@ public class DireccionController {
 		return this.direccionService.store(direccion);
 	}
 
+	@PostMapping(value="/usuario/{id}")
+	public Direccion store(@PathVariable("id") Integer id, @Valid @RequestBody Direccion direccion) throws Exception {
+		return this.direccionService.storeByUser(id, direccion);
+	}	
+	@GetMapping(value="/usuario/{id}")
+	public List<Direccion> showByUser(@PathVariable("id") Integer id) throws Exception {
+		return this.direccionService.showByUser(id);
+	}
 	
 	@PutMapping(value="/{id}")
 	public Direccion update(@PathVariable("id") Integer id, @Valid @RequestBody Direccion direccion) throws Exception {
